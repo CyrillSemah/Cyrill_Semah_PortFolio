@@ -1,0 +1,15 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below. Add new CSS/SCSS in separate files in this directory and they'll automatically
+ * be included in the compiled file accessible from http://example.com/assets/application.css.
+ *
+ * You can use SASS directives here (like @import) to import other SCSS files.
+ */
+
+// Import Bootstrap's SCSS (installed via gem "bootstrap")
+@import "bootstrap";
+
+// Si tu souhaites ajouter des styles spécifiques au front, tu peux le faire ici ou via d’autres partials
+// ex. @import "front/variables";
+// ex. @import "front/navbar";
+// etc.

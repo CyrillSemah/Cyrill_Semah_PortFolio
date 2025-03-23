@@ -1,0 +1,7 @@
+// Styles spécifiques à la partie Admin
+// On réimporte Bootstrap si on veut être sûr que l'admin ait son propre bundle CSS
+@import "bootstrap";
+
+// Ici tu mettras les variables/couleurs ou styles spécifiques à l'admin
+// ex. @import "admin/variables";
+// ex. @import "admin/dashboard";
