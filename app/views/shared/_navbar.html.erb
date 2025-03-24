@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+  <div class="container-fluid">
+    <!-- Marque / Logo -->
+    <a class="navbar-brand" href="#home">
+      PortFolio.
+    </a>
+
+    <!-- Bouton burger pour mobile (sans data-bs-toggle pour éviter les conflits) -->
+    <button class="navbar-toggler" type="button" id="burgerButton" aria-controls="navbarFront" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Liens du menu -->
+    <div class="collapse navbar-collapse" id="navbarFront">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item text-center">
+          <a class="nav-link mx-auto" href="#home">Accueil</a>
+        </li>
+        <li class="nav-item text-center">
+          <a class="nav-link mx-auto" href="#xpPro">XP Pro</a>
+        </li>
+        <li class="nav-item text-center">
+          <a class="nav-link mx-auto" href="#formation">Formation</a>
+        </li>
+        <li class="nav-item text-center">
+          <a class="nav-link mx-auto" href="#skills">Skills</a>
+        </li>
+        <li class="nav-item text-center">
+          <a class="nav-link mx-auto" href="#projects">Projets</a>
+        </li>
+        <!-- Séparateur vertical pour desktop -->
+        <li class="nav-item d-none d-lg-block">
+          <div class="vr mx-2 h-100"></div>
+        </li>
+        <!-- Séparateur horizontal pour mobile -->
+        <li class="nav-item d-lg-none">
+          <hr class="dropdown-divider my-2">
+        </li>
+        <!-- Bouton pour ouvrir la modal contact -->
+        <li class="nav-item text-center">
+          <a class="btn btn-warning mx-auto" data-bs-toggle="modal" data-bs-target="#contactModal">
+            Contact
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

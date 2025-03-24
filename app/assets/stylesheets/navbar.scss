@@ -1,0 +1,75 @@
+// Styles personnalisés pour la navbar
+
+// Centre le menu burger en mode mobile
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    top: 56px; // Hauteur de la navbar
+    left: 0;
+    background-color: #f8f9fa;
+    z-index: 1000;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    .navbar-nav {
+      width: 100%;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
+      .nav-item {
+        margin-bottom: 0.75rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        
+        .nav-link {
+          display: block;
+          padding: 0.5rem 1rem;
+          width: 80%;
+          max-width: 200px;
+          text-align: center;
+        }
+      }
+      
+      .dropdown-divider {
+        width: 80%;
+        margin: 0.5rem auto;
+        border-top: 1px solid rgba(0, 0, 0, 0.2);
+      }
+      
+      .btn {
+        display: block;
+        margin: 0.5rem auto;
+        width: 80%;
+        max-width: 200px;
+      }
+    }
+  }
+}
+
+// Ajoute un peu d'espace autour du bouton Contact
+.btn-warning {
+  margin-left: 0.5rem;
+}
+
+// Améliore l'apparence du séparateur vertical
+.vr {
+  height: 24px;
+  opacity: 0.5;
+}
+
+// S'assure que le bouton burger fonctionne correctement
+.navbar-toggler {
+  z-index: 1000;
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+}

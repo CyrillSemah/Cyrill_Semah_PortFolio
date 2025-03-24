@@ -1,1 +1,27 @@
-<%= stylesheet_link_tag "admin", media: "all", "data-turbo-track": "reload" %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PortFolio Admin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- Ici on charge admin.css (généré par admin.scss) -->
+    <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
+
+    <!-- On peut réutiliser le même JS que le front, ou un JS séparé si besoin -->
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <div class="d-flex">
+      <!-- SIDEBAR ADMIN (partial) -->
+      <%= render partial: "admin/shared/sidebar" %>
+
+      <div class="flex-grow-1 p-3">
+        <!-- Contenu principal Admin -->
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>

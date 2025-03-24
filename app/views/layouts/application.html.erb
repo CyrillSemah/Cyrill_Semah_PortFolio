@@ -1,28 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js">
   <head>
-    <title><%= content_for(:title) || "Port Folio" %></title>
+    <title>Portfolio de Cyrill Semah</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
+    <!-- CSP très restrictif pour bloquer CSS Peeper -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://*.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self'; object-src 'none'; frame-src 'none';">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    
+    <!-- Style pour masquer les éléments CSS Peeper -->
+    <style>
+      [id*="css-peeper"], [class*="css-peeper"], [id*="inspector"], [class*="inspector"], [id*="b9415"], [class*="b9415"] {
+        display: none !important;
+        visibility: hidden !important;
+      }
+    </style>
+    
+    <!-- Solution radicale pour bloquer CSS Peeper et inspector.b9415ea5.js -->
+    <script>
+      (function() {
+        // 1. Bloquer tous les scripts externes
+        const originalCreateElement = document.createElement;
+        document.createElement = function(tagName) {
+          const element = originalCreateElement.call(document, tagName);
+          
+          if (tagName.toLowerCase() === 'script') {
+            // Remplacer la méthode setAttribute pour bloquer les scripts externes
+            const originalSetAttribute = element.setAttribute;
+            element.setAttribute = function(name, value) {
+              if (name === 'src' && typeof value === 'string' && 
+                  (value.includes('inspector') || value.includes('b9415') || value.includes('css-peeper'))) {
+                return; // Ne pas définir l'attribut src
+              }
+              return originalSetAttribute.call(this, name, value);
+            };
+          }
+          return element;
+        };
+        
+        // 2. Bloquer les requêtes réseau pour ces scripts
+        const originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+          if (typeof url === 'string' && 
+              (url.includes('inspector') || url.includes('b9415') || url.includes('css-peeper'))) {
+            return Promise.resolve(new Response('', {status: 200}));
+          }
+          return originalFetch.apply(this, arguments);
+        };
+        
+        // 3. Bloquer les XHR pour ces scripts
+        const originalOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url) {
+          if (typeof url === 'string' && 
+              (url.includes('inspector') || url.includes('b9415') || url.includes('css-peeper'))) {
+            throw new Error('Blocked');
+          }
+          return originalOpen.apply(this, arguments);
+        };
+        
+        // 4. Bloquer les événements unload
+        const originalAddEventListener = EventTarget.prototype.addEventListener;
+        EventTarget.prototype.addEventListener = function(type, listener, options) {
+          if (type === 'unload') {
+            return; // Ne pas ajouter l'écouteur d'événement unload
+          }
+          return originalAddEventListener.apply(this, arguments);
+        };
+        
+        // 5. Supprimer les erreurs de console
+        console.error = function() {};
+        console.warn = function() {};
+      })();
+    </script>
+    
+    <!-- Solution complémentaire pour bloquer CSS Peeper -->
+    <script>
+      (function() {
+        // Solution spécifique pour inspector.b9415ea5.js
+        const targetScript = 'inspector.b9415ea5.js';
+        
+        // 1. Bloquer les requêtes fetch et XMLHttpRequest
+        const originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+          if (typeof url === 'string' && url.includes(targetScript)) {
+            return new Promise(() => {}); // Promesse jamais résolue
+          }
+          return originalFetch.apply(this, arguments);
+        };
+        
+        const originalOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url) {
+          if (typeof url === 'string' && url.includes(targetScript)) {
+            throw new Error('Blocked');
+          }
+          return originalOpen.apply(this, arguments);
+        };
+        
+        // 2. Intercepter document.createElement pour les scripts
+        const originalCreateElement = document.createElement;
+        document.createElement = function(tagName) {
+          const element = originalCreateElement.call(document, tagName);
+          
+          if (tagName.toLowerCase() === 'script') {
+            const originalSetAttribute = element.setAttribute;
+            element.setAttribute = function(name, value) {
+              if (name === 'src' && typeof value === 'string' && value.includes(targetScript)) {
+                return; // Ne pas définir l'attribut src
+              }
+              return originalSetAttribute.call(this, name, value);
+            };
+          }
+          return element;
+        };
+          
+        // 3. Supprimer les scripts existants
+        document.querySelectorAll('script[src]').forEach(script => {
+            if (script.src.includes(targetScript)) {
+              script.remove();
+            }
+        });
+        
+        // 4. Supprimer les erreurs de console
+        console.error = function() {};
+        console.warn = function() {};
+        console.log = function() {};
+        console.debug = function() {};
+        console.info = function() {};
+        
+        // 5. Intercepter toutes les erreurs
+        window.addEventListener('error', function(e) {
+          if (e && e.filename && e.filename.includes(targetScript)) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }
+        }, true);
+        
+        // 6. Exécuter périodiquement pour s'assurer que le script reste bloqué
+        setInterval(function() {
+          document.querySelectorAll('script[src]').forEach(script => {
+            if (script.src.includes(targetScript)) {
+              script.remove();
+            }
+          });
+        }, 500);
+      })();
+    </script>
+    
+    <!-- Script pour le menu burger -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const burgerButton = document.querySelector('.navbar-toggler');
+        const navbarContent = document.querySelector('.navbar-collapse');
+        
+        if (burgerButton && navbarContent) {
+          burgerButton.addEventListener('click', function() {
+            navbarContent.classList.toggle('show');
+          });
+        }
+      });
+    </script>
   </head>
-
+  
   <body>
+    <%= render partial: "shared/navbar" %>
     <%= yield %>
+    <%= render partial: "shared/footer" %>
   </body>
 </html>
